@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소고기 부위 정리 — Beef Cut Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+KR:wght@400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0d0b;
+    --bg2: #1a1713;
+    --bg3: #221f1a;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #f0ebe3;
+    --text2: #a89e91;
+    --text3: #6b6259;
+    --amber: #c8973a;
+    --amber2: #e8b454;
+    --amber-dim: rgba(200,151,58,0.12);
+    --red: #b84a35;
+    --green: #4a8a5c;
+    --teal: #3a7a80;
+    --serif: 'Playfair Display', 'Noto Serif KR', Georgia, serif;
+    --sans: 'Noto Sans KR', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    padding: 5rem 2rem 4rem;
+    max-width: 860px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,151,58,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--amber);
+    opacity: 0.5;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--amber2);
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--text2);
+    max-width: 500px;
+    line-height: 1.6;
+    border-left: 1px solid var(--amber);
+    padding-left: 1rem;
+    margin-top: 1.5rem;
+    opacity: 0.8;
+  }
+  .hero-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--amber) 0%, rgba(200,151,58,0.1) 60%, transparent 100%);
+    margin-top: 3rem;
+    opacity: 0.4;
+  }
+
+  /* ── Layout ── */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── Section ── */
+  .section { margin-bottom: 4rem; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .section-num {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--amber);
+    opacity: 0.7;
+    min-width: 20px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Aging card ── */
+  .aging-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .aging-cell {
+    background: var(--bg2);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+  .aging-cell:hover { background: var(--bg3); }
+  .aging-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+  }
+  .aging-val {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+  .aging-val strong { color: var(--text); font-weight: 500; }
+
+  /* ── Cut cards ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .l-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+  .cut-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cut-card {
+    background: var(--bg2);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .cut-card:hover { background: var(--bg3); }
+  .cut-card.active {
+    background: var(--bg3);
+    box-shadow: inset 2px 0 0 var(--amber);
+  }
+  .cut-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.6rem;
+  }
+  .cut-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cut-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    font-family: var(--serif);
+  }
+  .cut-eng {
+    font-size: 11px;
+    color: var(--text3);
+    margin-left: auto;
+    letter-spacing: 0.03em;
+  }
+  .cut-desc {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    color: var(--text3);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Detail drawer ── */
+  .detail-drawer {
+    display: none;
+    grid-column: 1 / -1;
+    background: var(--bg3);
+    border-top: 1px solid var(--border2);
+    padding: 1.25rem 1.5rem;
+    animation: slideDown 0.2s ease;
+  }
+  .detail-drawer.open { display: block; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .detail-drawer h4 {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+  .detail-drawer p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+
+  /* ── Subcut list ── */
+  .subcut-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .subcut-item {
+    background: var(--bg2);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    transition: background 0.2s;
+  }
+  .subcut-item:hover { background: var(--bg3); }
+  .subcut-num {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--amber);
+    opacity: 0.6;
+    min-width: 24px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .subcut-body {}
+  .subcut-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .subcut-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.65;
+  }
+
+  /* ── Science steps ── */
+  .science-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .science-item {
+    background: var(--bg2);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    transition: background 0.2s;
+  }
+  .science-item:hover { background: var(--bg3); }
+  .science-step-num {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--amber);
+    opacity: 0.5;
+    min-width: 24px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .science-body {}
+  .science-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .science-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.65;
+  }
+
+  /* ── Doneness ── */
+  .doneness-wrap {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .doneness-card {
+    background: var(--bg2);
+    padding: 1rem 0.75rem;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .doneness-card:hover { background: var(--bg3); }
+  .doneness-circle {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .doneness-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .doneness-temp {
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .tip-box {
+    background: var(--amber-dim);
+    border-left: 2px solid var(--amber);
+    padding: 0.9rem 1.25rem;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.65;
+    border-radius: 0 4px 4px 0;
+  }
+  .tip-box strong { color: var(--amber2); font-weight: 500; }
+
+  /* ── Price table ── */
+  .price-source {
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 1rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg2);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber);
+    opacity: 0.7;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border2);
+    font-weight: 400;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:hover { background: var(--bg3); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody td {
+    padding: 0.75rem 1rem;
+    color: var(--text2);
+    vertical-align: middle;
+  }
+  tbody td:first-child { color: var(--text); font-weight: 400; }
+  tbody td .price-high { color: var(--text); font-weight: 500; }
+  .price-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-premium { background: rgba(200,151,58,0.15); color: var(--amber2); }
+  .badge-mid { background: rgba(74,138,92,0.15); color: #6ab880; }
+  .badge-low { background: rgba(58,122,128,0.15); color: #6ab8be; }
+
+  .price-table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg2);
+    margin-bottom: 1.5rem;
+  }
+
+  .grade-table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg2);
+    margin-bottom: 1rem;
+  }
+
+  .usa-note {
+    font-size: 12px;
+    color: var(--text3);
+    padding: 0.75rem 1rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+  .usa-note span { color: var(--text2); }
+
+  /* ── Footer ── */
+  .footer {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-left {
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .footer-left strong { color: var(--text2); }
+  .footer-right {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .aging-grid { grid-template-columns: 1fr; }
+    .cut-grid { grid-template-columns: 1fr 1fr; }
+    .doneness-wrap { grid-template-columns: repeat(3, 1fr); }
+    .hero-title { font-size: 2rem; }
+  }
+  @media (max-width: 400px) {
+    .cut-grid { grid-template-columns: 1fr; }
+    .doneness-wrap { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Beef Cut Guide</p>
+  <h1 class="hero-title">소고기,<br><em>제대로 알고 먹기</em></h1>
+  <p class="hero-sub">서울대 문정훈 교수 강의 기반 · 부위별 특징 · 과학적 조리 원리 · 2026 소매가격</p>
+  <div class="hero-divider"></div>
+</header>
+
+<main class="main">
+
+  <!-- 01. 숙성 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">숙성의 원리</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="aging-grid">
+      <div class="aging-cell">
+        <p class="aging-label">왜 숙성해야 하나?</p>
+        <p class="aging-val">소는 네 발로 걷기 때문에 <strong>등 근육이 발달</strong>해 도축 직후 등심은 질김. 숙성 과정에서 효소가 근섬유를 분해해 부드러워지고 특유의 <strong>감칠맛과 육향</strong>이 올라옴.</p>
+      </div>
+      <div class="aging-cell">
+        <p class="aging-label">가정 숙성법</p>
+        <p class="aging-val">포장을 뜯지 않은 채로 냉장고 깊숙한 곳에 보관. <strong>온도 2~4°C, 기간 1~2주.</strong> 김치냉장고의 저온 채널 활용 시 효과적.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02. 등심 서브컷 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">등심 서브컷 — 어디서 잘랐냐가 맛을 결정한다</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="subcut-list">
+      <div class="subcut-item">
+        <span class="subcut-num">①</span>
+        <div class="subcut-body">
+          <p class="subcut-name">윗등심 · 살치살</p>
+          <p class="subcut-desc">빗살 무늬(마블링)가 선명하게 가로로 들어가 있음. 육즙이 매우 풍부하고 우유·버터처럼 고소하고 기름진 맛이 특징. 떡심이 함께 붙어 있는 부위.</p>
+        </div>
+      </div>
+      <div class="subcut-item">
+        <span class="subcut-num">②</span>
+        <div class="subcut-body">
+          <p class="subcut-name">꽃등심 · 새우살</p>
+          <p class="subcut-desc">살코기를 감싸는 근육이 새우 모양. 마블링과 살코기의 비율이 가장 이상적 → 부드럽고 고급스러운 맛의 대표 부위.</p>
+        </div>
+      </div>
+      <div class="subcut-item">
+        <span class="subcut-num">③</span>
+        <div class="subcut-body">
+          <p class="subcut-name">아랫등심 · 알등심 · 채끝</p>
+          <p class="subcut-desc">허리 쪽으로 갈수록 새우살이 소멸하고 알등심이 덩어리째 나옴. 마블링보다 묵직한 육향과 씹는 맛을 선호한다면 이 부위. 두툼한 스테이크 컷으로 제격.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03. 10대 부위 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">10대 주요 부위</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="legend">
+      <span class="legend-item"><span class="l-dot" style="background:#c8973a"></span>프리미엄 마블링</span>
+      <span class="legend-item"><span class="l-dot" style="background:#4a8a5c"></span>밸런스형</span>
+      <span class="legend-item"><span class="l-dot" style="background:#7a6ab8"></span>담백 · 부드러움</span>
+      <span class="legend-item"><span class="l-dot" style="background:#b84a35"></span>진한 육향 · 국물</span>
+    </div>
+    <div class="cut-grid" id="cutGrid"></div>
+  </section>
+
+  <!-- 04. 굽는 법 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">과학적으로 굽는 법</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="science-list" id="scienceList"></div>
+  </section>
+
+  <!-- 05. 굽기 온도 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">내부 온도 가이드</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="doneness-wrap" id="donenessWrap"></div>
+    <div class="tip-box">⚑ 60°C 초과 시 근섬유가 수축하며 수분을 쥐어짜냄 → 퍽퍽해짐. 촉촉한 결과물의 핵심은 <strong>58°C 이하 유지.</strong></div>
+  </section>
+
+  <!-- 06. 소매가격 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">소매가격 참고 (2026년)</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="price-source">출처: KAMIS 농산물유통정보, 축산물품질평가원, 한우자조금. 한우 1등급 · 대형마트 기준. 등급·매장·시기에 따라 편차 존재.</p>
+
+    <div class="price-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>부위</th>
+            <th>100g 가격 (1등급)</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>안심</td><td class="price-high">13,000 ~ 16,000원 <span class="price-badge badge-premium">최고가</span></td><td>소 한 마리에서 2%만 추출. 가장 희귀</td></tr>
+          <tr><td>꽃등심</td><td class="price-high">10,000 ~ 13,000원 <span class="price-badge badge-premium">프리미엄</span></td><td>2026.02 정상가 약 9,946원, 상승 추세</td></tr>
+          <tr><td>살치살</td><td class="price-high">11,000 ~ 15,000원 <span class="price-badge badge-premium">프리미엄</span></td><td>마블링 밀도 높아 꽃등심보다 비쌀 수 있음</td></tr>
+          <tr><td>채끝</td><td>9,000 ~ 12,000원</td><td>구이용 스테이크 컷 중 가격 대비 우수</td></tr>
+          <tr><td>갈비</td><td>8,000 ~ 14,000원</td><td>부위에 따라 편차 큼 (구이/찜/탕 구분)</td></tr>
+          <tr><td>목심</td><td>4,500 ~ 6,000원 <span class="price-badge badge-mid">중가</span></td><td>구이보다 탕·전골 적합</td></tr>
+          <tr><td>앞다리</td><td>4,000 ~ 5,500원 <span class="price-badge badge-mid">중가</span></td><td>진한 육색·육향, 국거리 적합</td></tr>
+          <tr><td>양지</td><td>4,000 ~ 5,500원 <span class="price-badge badge-mid">중가</span></td><td>설렁탕·곰탕의 핵심 부위</td></tr>
+          <tr><td>우둔</td><td>3,500 ~ 5,000원 <span class="price-badge badge-low">실속</span></td><td>저지방 고단백. 장조림·불고기용</td></tr>
+          <tr><td>사태</td><td>3,500 ~ 5,000원 <span class="price-badge badge-low">실속</span></td><td>힘줄 많음. 찜·탕 장시간 조리용</td></tr>
+          <tr><td>설도</td><td>3,000 ~ 4,500원 <span class="price-badge badge-low">실속</span></td><td>가장 저렴한 부위. 육포·장조림용</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grade-table-wrap">
+      <table>
+        <thead>
+          <tr><th>등급</th><th>등심 100g 기준</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1++ 전국 평균</td><td class="price-high">약 18,009원</td></tr>
+          <tr><td>1+ 등급</td><td>약 13,000 ~ 15,000원</td></tr>
+          <tr><td>1 등급</td><td>약 9,000 ~ 11,000원</td></tr>
+          <tr><td>2등급 이하</td><td>약 6,000 ~ 8,000원</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="usa-note">미국산 비교: <span>냉동 갈비 기준 100g당 약 4,376원 (2026.02). 한우 동급 부위 대비 절반 이하.</span></p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-left"><strong>소고기 부위 정리</strong> — 서울대 문정훈 교수 강의 기반</div>
+  <div class="footer-right">2026 · Beef Cut Guide</div>
+</footer>
+
+<script>
+const cuts = [
+  { name:"안심", eng:"Tenderloin", dot:"#7a6ab8", desc:"갈비뼈 안쪽, 운동량 최소. 소 한 마리에서 2%만 추출. 가장 부드럽고 가격도 최고가.", tags:["구이","스테이크"], detail:"마블링은 적지만 조직이 매우 섬세함. 미디엄레어로 구워야 부드러움이 최대로 살아남. 소스 페어링이 중요." },
+  { name:"등심", eng:"Sirloin",    dot:"#c8973a", desc:"목~허리 라인. 살코기와 마블링의 황금비. 씹을수록 이노신산 감칠맛.",            tags:["구이","스테이크"], detail:"윗등심(살치살), 꽃등심(새우살), 아랫등심(알등심)으로 세분됨. 부위 섹션 참고." },
+  { name:"채끝", eng:"Striploin",  dot:"#c8973a", desc:"등심 끝자락. 안심에 버금가는 연함. 마블링 훌륭.",                              tags:["구이","스테이크"], detail:"오래 구우면 육즙이 빠르게 손실됨. 미디엄레어(핏기 살짝)로 짧게 굽는 것이 포인트." },
+  { name:"갈비", eng:"Rib",        dot:"#c8973a", desc:"등심-채끝 사이. 뼈 사이 쫄깃한 고기로 감칠맛 최강. 특수부위 보물창고.",       tags:["찜","탕","구이"],  detail:"토시살, 안창살, 제비추리 등 특수부위가 집중. 부위에 따라 찜·탕·구이 모두 활용 가능." },
+  { name:"양지", eng:"Brisket",    dot:"#b84a35", desc:"복부 아래 살코기. 지방·결합조직 많아 육질 질김. 오래 끓일수록 국물 진해짐.", tags:["탕","국물"],       detail:"오래 끓이면 콜라겐이 젤라틴으로 변해 국물에 깊은 바디감이 생김. 설렁탕·곰탕의 핵심." },
+  { name:"앞다리",eng:"Chuck",     dot:"#b84a35", desc:"운동량 많아 색·향 진함. 근육과 힘줄 많아 다소 질긴 편.",                       tags:["탕","국거리"],     detail:"진한 육색과 향이 국물 요리에 깊이를 줌. 구이보다 장시간 가열 요리에 적합." },
+  { name:"목심", eng:"Chuck Roll", dot:"#b84a35", desc:"목덜미 부위. 거칠고 질기지만 단백질·육즙 풍부.",                               tags:["탕","전골"],       detail:"오랜 시간 천천히 끓이면 결합조직이 부드러워지며 진한 풍미. 샤브샤브·전골용으로도 사용." },
+  { name:"우둔", eng:"Round",      dot:"#7a6ab8", desc:"엉덩이 부위. 연하고 담백한 맛. 지방 적고 살코기 위주.",                        tags:["장조림","불고기"],  detail:"지방이 적어 양념이 잘 배어듦. 장조림·불고기처럼 간장 베이스 요리에 최적." },
+  { name:"사태", eng:"Shank",      dot:"#b84a35", desc:"다리 부분. 힘줄 많고 지방 적어 질기지만 오래 끓이면 풍미 폭발.",               tags:["탕","찜"],          detail:"아롱사태가 가장 부드러운 서브컷. 사태찜, 소꼬리탕처럼 장시간 조리 시 힘줄이 녹아 깊은 맛을 냄." },
+  { name:"설도", eng:"Rump",       dot:"#7a6ab8", desc:"뒷다리 위 궁둥이 살. 지방 적고 단백질 많음. 비교적 저렴.",                    tags:["장조림","육포"],   detail:"저지방 고단백 부위. 육포나 장조림처럼 수분을 제거하거나 오래 조리하는 방식에 적합." },
+];
+
+const science = [
+  { num:"①", title:"소금간 + 수분 제거", desc:"굽기 30~45분 전 소금을 미리 뿌림 → 삼투 현상으로 속까지 간이 배고 수분이 표면으로 올라옴 → 굽기 직전 키친타월로 완전히 닦아냄 → 팬 위에서 고기가 쪄지지 않고 마이야르 반응(바삭한 감칠맛 층)이 제대로 형성됨." },
+  { num:"②", title:"고온에서 겉면 시어링", desc:"강불에서 겉면을 빠르게 구워 마이야르 반응 유도. 육즙을 '가두는' 것이 아니라 풍미 층을 만드는 것이 목적. 뒤집기는 최소화." },
+  { num:"③", title:"베이스팅 (Basting)", desc:"겉면이 충분히 구워지면 불을 낮추고 버터 투입 → 숟가락으로 녹은 버터를 고기 위에 계속 끼얹음 → 위아래 열을 고르게 맞추고 버터향이 고기에 흡수되어 풍미 극대화." },
+  { num:"④", title:"레스팅 (Resting)", desc:"다 구운 고기를 5분 정도 그대로 두어 열기가 내부로 고루 퍼지도록 기다린 후 썰어 먹음. 바로 썰면 육즙이 외부로 쏟아져 나옴." },
+];
+
+const doneness = [
+  { name:"레어",      temp:"48–52°C", bg:"#6b1a1a" },
+  { name:"미디엄레어", temp:"52–58°C", bg:"#8b2e20" },
+  { name:"미디엄",    temp:"58–63°C", bg:"#a04828" },
+  { name:"미디엄웰",  temp:"63–68°C", bg:"#b06630" },
+  { name:"웰던",      temp:"68°C+",   bg:"#8b7050" },
+];
+
+// Render cuts
+const grid = document.getElementById('cutGrid');
+let activeDrawer = null;
+let activeCard = null;
+
+cuts.forEach((c, i) => {
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'contents';
+
+  const card = document.createElement('div');
+  card.className = 'cut-card';
+  card.innerHTML = `
+    <div class="cut-top">
+      <span class="cut-dot" style="background:${c.dot}"></span>
+      <span class="cut-name">${c.name}</span>
+      <span class="cut-eng">${c.eng}</span>
+    </div>
+    <p class="cut-desc">${c.desc}</p>
+    <div class="tag-row">${c.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+  `;
+
+  const drawer = document.createElement('div');
+  drawer.className = 'detail-drawer';
+  drawer.innerHTML = `<h4>상세 정보</h4><p>${c.detail}</p>`;
+
+  card.addEventListener('click', () => {
+    const isOpen = drawer.classList.contains('open');
+    if (activeDrawer && activeDrawer !== drawer) {
+      activeDrawer.classList.remove('open');
+      activeCard.classList.remove('active');
+    }
+    if (isOpen) {
+      drawer.classList.remove('open');
+      card.classList.remove('active');
+      activeDrawer = null; activeCard = null;
+    } else {
+      drawer.classList.add('open');
+      card.classList.add('active');
+      activeDrawer = drawer; activeCard = card;
+    }
+  });
+
+  grid.appendChild(card);
+  grid.appendChild(drawer);
+});
+
+// Render science
+const sl = document.getElementById('scienceList');
+science.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'science-item';
+  el.innerHTML = `<span class="science-step-num">${s.num}</span><div class="science-body"><p class="science-title">${s.title}</p><p class="science-desc">${s.desc}</p></div>`;
+  sl.appendChild(el);
+});
+
+// Render doneness
+const dw = document.getElementById('donenessWrap');
+doneness.forEach(d => {
+  const el = document.createElement('div');
+  el.className = 'doneness-card';
+  el.innerHTML = `<div class="doneness-circle" style="background:${d.bg}"></div><p class="doneness-name">${d.name}</p><p class="doneness-temp">${d.temp}</p>`;
+  dw.appendChild(el);
+});
+</script>
+</body>
+</html>
